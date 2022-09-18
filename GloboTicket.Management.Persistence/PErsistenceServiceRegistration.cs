@@ -9,7 +9,7 @@ using System.Text;
 
 namespace GloboTicket.Management.Persistence
 {
-    public static class PErsistenceServiceRegistration
+    public static class PersistenceServiceRegistration
     {
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
