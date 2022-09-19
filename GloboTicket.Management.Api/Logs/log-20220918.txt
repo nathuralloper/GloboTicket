@@ -1,0 +1,4 @@
+2022-09-18 19:58:10.683 -04:00 [INF] Application Starting
+2022-09-18 19:59:14.616 -04:00 [INF] Application Starting
+2022-09-18 20:03:06.637 -04:00 [INF] Application Starting
+2022-09-18 20:04:20.044 -04:00 [INF] Application Starting

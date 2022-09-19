@@ -12,6 +12,6 @@ namespace GloboTicket.Management.Application.Features.Categories.Commands.Create
         {
         }
 
-        public CreateCategorioDto Category { get; set; }
+        public CreateCategoryDto Category { get; set; }
     }
 }

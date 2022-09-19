@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GloboTicket.Management.Application.Features.Categories.Queries.GetCategoriesList
 {
-    class GetCategoriesListQueryHandler : IRequestHandler<GetCategoriesListQuery, List<CategoryListVm>>
+    public class GetCategoriesListQueryHandler : IRequestHandler<GetCategoriesListQuery, List<CategoryListVm>>
     {
         private readonly IAsyncRepository<Category> _categoryRepository;
         private readonly IMapper _mapper;

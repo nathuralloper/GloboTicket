@@ -1,5 +1,10 @@
+using GloboTicket.Management.Api.Middleware;
+using GloboTicket.Management.Api.Services;
 using GloboTicket.Management.Api.Utility;
 using GloboTicket.Management.Application;
+using GloboTicket.Management.Application.Contracts;
+using GloboTicket.Management.Application.Models.Authentication;
+using GloboTicket.Management.Identity;
 using GloboTicket.Management.Infrastructure;
 using GloboTicket.Management.Persistence;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +36,15 @@ namespace GloboTicket.Management.Api
         {
             AddSwagger(services);
 
+            services.AddHttpContextAccessor();
+
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
             services.AddPersistenceServices(Configuration);
+            services.AddIdentityServices(Configuration);
+
+            services.AddScoped<ILoggedInUserService, LoggedInUserService>();
+
             services.AddControllers();
 
             services.AddCors(options =>
@@ -44,6 +56,37 @@ namespace GloboTicket.Management.Api
         private void AddSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen(c => {
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                  {
+                    {
+                      new OpenApiSecurityScheme
+                      {
+                        Reference = new OpenApiReference
+                          {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                          },
+                          Scheme = "oauth2",
+                          Name = "Bearer",
+                          In = ParameterLocation.Header,
+
+                        },
+                        new List<string>()
+                      }
+                    });
+
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo 
                 {
                      Version = "v1",
@@ -65,6 +108,7 @@ namespace GloboTicket.Management.Api
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => 
@@ -72,7 +116,11 @@ namespace GloboTicket.Management.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GloboTicket Ticket Management API");
             });
 
+            app.UseCustomExceptionHandler();
+
             app.UseCors("Open");
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

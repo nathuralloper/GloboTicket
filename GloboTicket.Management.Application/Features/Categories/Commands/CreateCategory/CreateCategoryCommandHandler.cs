@@ -40,7 +40,7 @@ namespace GloboTicket.Management.Application.Features.Categories.Commands.Create
             {
                 var category = new Category() { Name = request.Name };
                 category = await _categoryRespository.AddAsync(category);
-                createCategoryCommandResponse.Category = _mapper.Map<CreateCategorioDto>(category);
+                createCategoryCommandResponse.Category = _mapper.Map<CreateCategoryDto>(category);
             }
 
             return createCategoryCommandResponse;

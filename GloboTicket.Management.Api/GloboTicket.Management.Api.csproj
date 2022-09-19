@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GloboTicket.Management.Application\GloboTicket.Management.Application.csproj" />
+    <ProjectReference Include="..\GloboTicket.Management.Identity\GloboTicket.Management.Identity.csproj" />
     <ProjectReference Include="..\GloboTicket.Management.Infrastructure\GloboTicket.Management.Infrastructure.csproj" />
     <ProjectReference Include="..\GloboTicket.Management.Persistence\GloboTicket.Management.Persistence.csproj" />
   </ItemGroup>
@@ -16,6 +17,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
   </ItemGroup>
